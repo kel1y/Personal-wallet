@@ -8,6 +8,9 @@ This is a web application for managing personal finances, built with Next.js and
 - Set and monitor budget limits
 - Categorize transactions
 - Visualize transaction summaries
+- Implement report generation feature
+- Add subcategories for more detailed expense tracking
+- Integrate with a database for data persistence
 
 ## Getting Started
 
@@ -18,14 +21,9 @@ This is a web application for managing personal finances, built with Next.js and
 
 ## Deployment
 
-This application is deployed on [Vercel](https://vercel.com). 
+This application is deployed on [Render](https://render.com). You can view the live version here: (https://personal-wallet-vg6a.onrender.com/) 
 
-## Future Improvements
 
-- Implement report generation feature
-- Add subcategories for more detailed expense tracking
-- Integrate with a database for data persistence
-- Add user authentication
 
 ## Contributing
 
