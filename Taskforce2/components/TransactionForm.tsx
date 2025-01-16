@@ -1,18 +1,29 @@
 'use client'
 
-import { useState } from 'react'
-import { Transaction } from '../types'
+import { useState, useEffect } from 'react'
+import { Transaction, Category } from '../types'
 
 interface TransactionFormProps {
   onAddTransaction: (transaction: Omit<Transaction, 'id'>) => void
+  categories: Category[]
 }
 
-export default function TransactionForm({ onAddTransaction }: TransactionFormProps) {
+export default function TransactionForm({ onAddTransaction, categories }: TransactionFormProps) {
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
   const [type, setType] = useState<'income' | 'expense'>('expense')
   const [account, setAccount] = useState('bank')
   const [category, setCategory] = useState('')
+  const [subcategory, setSubcategory] = useState('')
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0])
+  const [availableSubcategories, setAvailableSubcategories] = useState<string[]>([])
+
+  useEffect(() => {
+    // Update subcategories when category changes
+    const selectedCategory = categories.find(c => c.name === category)
+    setAvailableSubcategories(selectedCategory?.subcategories || [])
+    setSubcategory('') // Reset subcategory when category changes
+  }, [category, categories])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -22,13 +33,17 @@ export default function TransactionForm({ onAddTransaction }: TransactionFormPro
       type,
       account,
       category,
-      date: new Date().toISOString(),
+      subcategory,
+      date,
     })
+    // Reset form
     setDescription('')
     setAmount('')
     setType('expense')
     setAccount('bank')
     setCategory('')
+    setSubcategory('')
+    setDate(new Date().toISOString().split('T')[0])
   }
 
   return (
@@ -96,11 +111,50 @@ export default function TransactionForm({ onAddTransaction }: TransactionFormPro
           <label htmlFor="category" className="block text-sm font-medium text-gray-700">
             Category
           </label>
-          <input
-            type="text"
+          <select
             id="category"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
+            required
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          >
+            <option value="">Select a category</option>
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.name}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="subcategory" className="block text-sm font-medium text-gray-700">
+            Subcategory
+          </label>
+          <select
+            id="subcategory"
+            value={subcategory}
+            onChange={(e) => setSubcategory(e.target.value)}
+            required
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          >
+            <option value="">Select a subcategory</option>
+            {availableSubcategories.map((subcat) => (
+              <option key={subcat} value={subcat}>
+                {subcat}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="date" className="block text-sm font-medium text-gray-700">
+            Date
+          </label>
+          <input
+            type="date"
+            id="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            required
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
           />
         </div>
