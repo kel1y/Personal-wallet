@@ -21,7 +21,7 @@ This is a web application for managing personal finances, built with Next.js and
 
 ## Deployment
 
-This application is deployed on [Render](https://render.com). You can view the live version here: (https://personal-wallet-vg6a.onrender.com/) 
+This application is deployed on [Render](https://render.com). You can view the live version here: (https://personal-wallet-vg6a.onrender.com/) or (https://wallet-c6by.onrender.com/)
 
 
 
